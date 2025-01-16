@@ -1,0 +1,10 @@
+{
+  "login_details_path": "login_creds.json",
+  "timeout": {
+    "default": 1000,
+    "wait_for_2FA": 30000,
+    "chapter_loading": 10000
+  },
+  "output_folder_name": "Answers",
+  "login_url": "https://urp.my.ucla.edu/"
+}
