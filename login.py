@@ -55,6 +55,8 @@ def _login(context: BrowserContext, config: dict[str, str | int]) -> bool:
     # give time to approve DUO request
     page.wait_for_timeout(config["timeout"]["wait_for_2FA"])
 
+    page.screenshot(path="data.png", full_page=True)
+
     context.storage_state(path=config["login_details_path"])
     page.close()
 
