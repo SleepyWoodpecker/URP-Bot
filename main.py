@@ -5,7 +5,7 @@ import json
 
 def run(playwright: Playwright, config: dict[str, str | int]) -> None:
     firefox = playwright.firefox
-    browser = firefox.launch(headless=False)
+    browser = firefox.launch(headless=True)
 
     if not get_login_details(browser=browser, config=config):
         return Exception("There was an error logging in")

@@ -12,6 +12,8 @@ def get_login_details(browser: Browser, config: dict[str, str | int]) -> bool:
     Parameters:
         playwright - the playwright object, preferably passed in by context
     """
+    print("Logging in to the portal...")
+
     if not os.path.exists(config["login_details_path"]):
         login_context = browser.new_context()
 
@@ -19,6 +21,8 @@ def get_login_details(browser: Browser, config: dict[str, str | int]) -> bool:
             return False
 
         login_context.close()
+
+    print("Login success!")
 
     return True
 
@@ -53,3 +57,5 @@ def _login(context: BrowserContext, config: dict[str, str | int]) -> bool:
 
     context.storage_state(path=config["login_details_path"])
     page.close()
+
+    return True
