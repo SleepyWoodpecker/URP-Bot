@@ -1,4 +1,4 @@
-from playwright.sync_api import sync_playwright, Playwright
+from playwright.sync_api import sync_playwright, Playwright, TimeoutError
 from login import get_login_details
 import json
 
@@ -18,28 +18,33 @@ def run(playwright: Playwright, config: dict[str, str | int]) -> None:
 
     urls_to_visit = []
 
-    # get all the opportunities available
-    while True:
-        page.wait_for_selector("#tdr_content")
-        all_listings = page.query_selector_all("div.opportunity-card")
+    try:
+        # get all the opportunities available
+        while True:
+            page.wait_for_selector("#tdr_content")
+            all_listings = page.query_selector_all("div.opportunity-card")
 
-        # stop when there are no more listings
-        if not all_listings:
-            break
+            # stop when there are no more listings
+            if not all_listings:
+                break
 
-        for listing in all_listings:
-            listing_url = listing.query_selector("a[href]").get_attribute("href")
-            urls_to_visit.append(listing_url)
+            for listing in all_listings:
+                listing_url = listing.query_selector("a[href]").get_attribute("href")
+                urls_to_visit.append(listing_url)
 
-        page_no += 1
-        page.goto(f"{config['login_url']}/?page={page_no}")
+            page_no += 1
+            page.goto(f"{config['login_url']}/?page={page_no}")
 
-    for url in urls_to_visit:
-        page.goto(f"https://urp.my.ucla.edu{url}")
-        page.wait_for_selector("#tdr_content_content")
+        for url in urls_to_visit:
+            page.goto(f"https://urp.my.ucla.edu{url}")
+            page.wait_for_selector("#tdr_content_content")
 
-        content = page.query_selector("body").inner_text()
-        print(content)
+            content = page.query_selector("body").inner_text()
+            print(content)
+
+    except TimeoutError:
+        page.screenshot(path="timeout_error.png", full_page=True)
+        print("Scraper timed out!")
 
 
 if __name__ == "__main__":
