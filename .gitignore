@@ -1,4 +1,8 @@
 .DS_Store
 __pycache__
 .env
+
+# credential files
 login_creds.json
+key.pem
+duo_response.json

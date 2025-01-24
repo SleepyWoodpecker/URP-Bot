@@ -6,5 +6,7 @@
     "chapter_loading": 10000
   },
   "output_folder_name": "Answers",
-  "login_url": "https://urp.my.ucla.edu/"
+  "login_url": "https://urp.my.ucla.edu/",
+  "login_retry_count": 3,
+  "duo_device_name": "Ruo Python 2"
 }

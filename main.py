@@ -1,11 +1,14 @@
 from playwright.sync_api import sync_playwright, Playwright, TimeoutError
-from login import get_login_details
+from login.login import get_login_details
 import json
+
+
+# TODO: add retry for login fails
 
 
 def run(playwright: Playwright, config: dict[str, str | int]) -> None:
     firefox = playwright.firefox
-    browser = firefox.launch(headless=True)
+    browser = firefox.launch(headless=False)
 
     if not get_login_details(browser=browser, config=config):
         return Exception("There was an error logging in")
